@@ -1,6 +1,5 @@
 import random
 import tkinter as tk
-import time
 
 RADIUS = 15
 SIGHT_LENGTH = 60
