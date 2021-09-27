@@ -1,16 +1,22 @@
-# This is a sample Python script.
+import dots
+import relationships
+import tkinter as tk
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+root = tk.Tk()
+canvas = tk.Canvas(root, bg="white", height=900, width=1700)
+canvas.pack()
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    dot1 = dots.Dot(canvas, 500, 500)
+    dot1.draw_dot()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    dot2 = dots.Dot(canvas, 800, 800)
+    dot2.draw_dot()
+
+    angle = relationships.angle_between(dot1, dot2)
+    print(angle)
+
+    dot1.rotate_sight(angle[0])
+    dot2.rotate_sight(angle[1])
+
+    root.mainloop()
