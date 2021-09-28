@@ -40,7 +40,7 @@ class Self:
     def move_dot_Xpos(self, event):
         self.x += 10
         self.canvas.move(self.ovalObject, 10, 0)  # move object x, y
-        if relationships.out_of_bounds(self):
+        if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
             self.x -= 10
             self.canvas.move(self.ovalObject, -10, 0)  # move object x, y
         self.canvas.update()
@@ -48,7 +48,7 @@ class Self:
     def move_dot_Xneg(self, event):
         self.x -= 10
         self.canvas.move(self.ovalObject, -10, 0)  # move object x, y
-        if relationships.out_of_bounds(self):
+        if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
             self.x += 10
             self.canvas.move(self.ovalObject, 10, 0)  # move object x, y
         self.canvas.update()
@@ -56,7 +56,7 @@ class Self:
     def move_dot_Ypos(self, event):
         self.y += 10
         self.canvas.move(self.ovalObject, 0, 10)  # move object x, y
-        if relationships.out_of_bounds(self):
+        if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
             self.y -= 10
             self.canvas.move(self.ovalObject, 0, -10)  # move object x, y
         self.canvas.update()
@@ -64,7 +64,7 @@ class Self:
     def move_dot_Yneg(self, event):
         self.y -= 10
         self.canvas.move(self.ovalObject, 0, -10)  # move object x, y
-        if relationships.out_of_bounds(self):
+        if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
             self.y += 10
             self.canvas.move(self.ovalObject, 0, 10)  # move object x, y
         self.canvas.update()

@@ -29,7 +29,7 @@ class Cluster:
             y = r * math.sin(alpha) + self.y
 
             d = dots.Dot(self.canvas, x, y, color=self.color)
-            if relationships.are_touching(self.canvas, d):
+            if relationships.is_touching(self.canvas, d):
                 canvas.delete(d.ovalObject)
 
             else:

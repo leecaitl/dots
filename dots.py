@@ -1,4 +1,5 @@
 import random
+import relationships
 import tkinter as tk
 
 RADIUS = 7
@@ -35,14 +36,12 @@ class Dot:
 
         self.ovalObject = self.canvas.create_oval(x0, y0, x1, y1, fill=self.color)
 
-    def move_dot(self):
-        deltx = random.randint(-5, 5)
-        delty = random.randint(-5, 5)
-
-        self.canvas.move(self.ovalObject, deltx, delty)  # move object x, y
-
     def jitter_dot(self):
         deltx = random.randint(-2, 2)
         delty = random.randint(-2, 2)
-
         self.canvas.move(self.ovalObject, deltx, delty)  # move object x, y
+
+        if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
+            self.x -= deltx
+            self.y -= delty
+            self.canvas.move(self.ovalObject, -deltx, -delty)  # move object x, y
