@@ -1,22 +1,39 @@
 import dots
-import relationships
+import clusters
+import self
+import random
 import tkinter as tk
 
+
+HEIGHT = 900
+WIDTH = 1700
+
 root = tk.Tk()
-canvas = tk.Canvas(root, bg="white", height=900, width=1700)
+canvas = tk.Canvas(root, bg="white", height=HEIGHT, width=WIDTH)
 canvas.pack()
 
+
+def move_dots(toMove):
+    for i in range(50):
+        for d in toMove:
+            d.move_dot()
+        canvas.update()
+
+
 if __name__ == '__main__':
-    dot1 = dots.Dot(canvas, 500, 500)
-    dot1.draw_dot()
 
-    dot2 = dots.Dot(canvas, 800, 800)
-    dot2.draw_dot()
+    clusterList = []
+    for i in range(5):
+        clusterList.append(clusters.Cluster(canvas))
 
-    angle = relationships.angle_between(dot1, dot2)
-    print(angle)
+    user = self.Self(canvas, root)
 
-    dot1.rotate_sight(angle[0])
-    dot2.rotate_sight(angle[1])
+
+    #for i in range(50):
+    #    for c in clusterList:
+    #        for d in c.dotList:
+    #            p = random.random()
+    #            if p > 0.90: d.jitter_dot()
+    #    canvas.update()
 
     root.mainloop()

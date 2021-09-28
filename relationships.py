@@ -1,4 +1,6 @@
 import numpy as np
+import dots
+import math
 
 
 def angle_between(dot1, dot2):
@@ -18,3 +20,25 @@ def angle_between(dot1, dot2):
         return -angle, 180-angle
 
     return 180-angle, -angle
+
+
+def out_of_bounds(dot1):
+    if dot1.x <= dots.RADIUS or dot1.x >= dots.WIDTH-dots.RADIUS:
+        print("x out of bounds")
+        return True
+    if dot1.y <= dots.RADIUS or dot1.y >= dots.HEIGHT-dots.RADIUS:
+        print("y out of bounds")
+        return True
+    return False
+
+
+def distance_between(dot1, dot2):
+    return math.hypot(dot2.x - dot1.x, dot2.y - dot1.y)
+
+
+# This returns true if the dot is touching ANY other object in the space
+def are_touching(canvas, dot):
+    x1,y1,x2,y2 = canvas.bbox(dot.ovalObject)
+    if len(canvas.find_overlapping(x1, y1, x2, y2)) > 1:
+        return True
+    return False
