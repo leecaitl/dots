@@ -17,6 +17,7 @@ class Self:
         self.r = dots.RADIUS
         self.sight = []
         self.conversation = -1
+        self.cluster = None
         self.ovalObject = None  # This is the oval object that is being drawn
         self.color = color
         self.create_dot()
@@ -28,6 +29,16 @@ class Self:
 
     def set_conversation(self, conversation):
         self.conversation = conversation
+
+    def set_cluster(self, cluster):
+        self.cluster = cluster
+        if not cluster:
+            self.color = '#404040'
+            self.canvas.itemconfig(self.ovalObject, fill='#404040')
+        else:
+            self.color = cluster.color
+            self.canvas.itemconfig(self.ovalObject, fill=self.color)
+        self.canvas.update()
 
     def create_dot(self):  # center coordinates, radius
         x0 = self.x - self.r

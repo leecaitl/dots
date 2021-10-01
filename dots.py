@@ -10,7 +10,7 @@ BUFFER = 50
 
 class Dot:
 
-    def __init__(self, canvas, x=None, y=None, color='#404040'):
+    def __init__(self, canvas, x=None, y=None, color='#404040', createDot=True):
         if x is None and y is None:
             x = random.randint(0, WIDTH-BUFFER)
             y = random.randint(0, HEIGHT-BUFFER)
@@ -23,7 +23,7 @@ class Dot:
         self.conversation = -1
         self.ovalObject = None  # This is the oval object that is being drawn
         self.color = color
-        self.create_dot()
+        if createDot: self.create_dot()
 
     def set_conversation(self, conversation):
         self.conversation = conversation

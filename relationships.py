@@ -1,5 +1,6 @@
 import numpy as np
 import dots
+import clusters
 import math
 
 
@@ -39,4 +40,15 @@ def is_touching(canvas, dot):
     x1,y1,x2,y2 = canvas.bbox(dot.ovalObject)
     if len(canvas.find_overlapping(x1, y1, x2, y2)) > 1:
         return True
+    return False
+
+
+def is_on_cluster_boundary(canvas, dot, cluster):
+    margin = 3
+    center = dots.Dot(canvas, x=cluster.x, y=cluster.y, createDot=False)
+    d = distance_between(dot, center)
+
+    if cluster.r - margin <= d <= cluster.r + margin:
+        return True
+
     return False

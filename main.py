@@ -1,5 +1,6 @@
 import dots
 import clusters
+import relationships
 import self
 import random
 import tkinter as tk
@@ -17,13 +18,13 @@ canvas.pack()
 def jitter_all_dots(canvas, dotList):
     for d in dotList:
         p = random.random()
-        if p > 0.9995: d.jitter_dot()
+        if p > 0.99: d.jitter_dot()
     canvas.update()
 
 
 if __name__ == '__main__':
     clusterList = []
-    for i in range(5):
+    for i in range(2):
         clusterList.append(clusters.Cluster(canvas))
 
     nestedDots = [c.dotList for c in clusterList]
@@ -32,5 +33,14 @@ if __name__ == '__main__':
     user = self.Self(canvas, root)
     while True:
         jitter_all_dots(canvas, allDots)
+        found = False
+        for c in clusterList:
+            if relationships.is_on_cluster_boundary(canvas, user, c):
+                user.set_cluster(c)
+                found = True
+                break
 
-    root.mainloop()
+        if not found:
+            user.set_cluster(None)
+
+
