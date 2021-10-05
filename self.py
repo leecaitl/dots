@@ -15,6 +15,7 @@ class Self:
         self.x = x
         self.y = y
         self.r = dots.RADIUS
+        self.moveRate = dots.RADIUS*1.5
         self.sight = []
         self.conversation = -1
         self.cluster = None
@@ -49,39 +50,39 @@ class Self:
         self.ovalObject = self.canvas.create_oval(x0, y0, x1, y1, fill=self.color)
 
     def move_dot_Xpos(self, event):
-        self.x += 10
-        self.canvas.move(self.ovalObject, 10, 0)  # move object x, y
+        self.x += self.moveRate
+        self.canvas.move(self.ovalObject, self.moveRate, 0)  # move object x, y
         if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
-            self.x -= 10
-            self.canvas.move(self.ovalObject, -10, 0)  # move object x, y
+            self.x -= self.moveRate
+            self.canvas.move(self.ovalObject, -self.moveRate, 0)  # move object x, y
         self.canvas.update()
 
     def move_dot_Xneg(self, event):
-        self.x -= 10
-        self.canvas.move(self.ovalObject, -10, 0)  # move object x, y
+        self.x -= self.moveRate
+        self.canvas.move(self.ovalObject, -self.moveRate, 0)  # move object x, y
         if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
-            self.x += 10
-            self.canvas.move(self.ovalObject, 10, 0)  # move object x, y
+            self.x += self.moveRate
+            self.canvas.move(self.ovalObject, self.moveRate, 0)  # move object x, y
         self.canvas.update()
 
     def move_dot_Ypos(self, event):
-        self.y += 10
-        self.canvas.move(self.ovalObject, 0, 10)  # move object x, y
+        self.y += self.moveRate
+        self.canvas.move(self.ovalObject, 0, self.moveRate)  # move object x, y
         if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
-            self.y -= 10
-            self.canvas.move(self.ovalObject, 0, -10)  # move object x, y
+            self.y -= self.moveRate
+            self.canvas.move(self.ovalObject, 0, -self.moveRate)  # move object x, y
         self.canvas.update()
 
     def move_dot_Yneg(self, event):
-        self.y -= 10
-        self.canvas.move(self.ovalObject, 0, -10)  # move object x, y
+        self.y -= self.moveRate
+        self.canvas.move(self.ovalObject, 0, -self.moveRate)  # move object x, y
         if relationships.out_of_bounds(self) or relationships.is_touching(self.canvas, self):
-            self.y += 10
-            self.canvas.move(self.ovalObject, 0, 10)  # move object x, y
+            self.y += self.moveRate
+            self.canvas.move(self.ovalObject, 0, self.moveRate)  # move object x, y
         self.canvas.update()
 
     def jitter_dot(self):
-        deltx = random.randint(-2, 2)
-        delty = random.randint(-2, 2)
+        deltx = random.randint(-self.r/2, self.r/2)
+        delty = random.randint(-self.r/2, self.r/2)
 
         self.canvas.move(self.ovalObject, deltx, delty)  # move object x, y
