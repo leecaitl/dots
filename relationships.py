@@ -1,6 +1,6 @@
 import numpy as np
 import dots
-import clusters
+import random
 import itertools
 import math
 
@@ -69,6 +69,13 @@ def is_on_cluster_boundary(canvas, dot, cluster):
     return False
 
 
+def is_within_cluster(dot, cluster):
+    d = distance_between(cluster.centerDot, dot)
+    if d <= cluster.r:
+        return True
+    return False
+
+
 def get_closest_pair(dotList):
     oldList = []
     for i in range(len(dotList)):
@@ -95,11 +102,32 @@ def get_closest_pair(dotList):
 def get_midpoint(dot1, dot2):
     return (dot1.x + dot2.x) / 2, (dot1.y + dot2.y) / 2
 
-def moving_closer_to_center(dot, cluster, xDir, yDir):
-    newX = dot.x + xDir
-    newY = dot.y + yDir
 
-    if math.hypot(newX - cluster.x, newY - cluster.y) < cluster.r:
-        return True
+def pick_random_dir():
+    directions = [-1,0,1]
+    return random.choice(directions), random.choice(directions)
 
+
+def pick_dir_away_from(toMove, refPoint):
+    d = distance_between(toMove, refPoint)
+
+    directions = [-1, 0, 1]
+    xDir, yDir = random.choice(directions), random.choice(directions)
+
+    newX = toMove.x + xDir
+    newY = toMove.y + yDir
+
+    while math.hypot(newX - refPoint.x, newY - refPoint.y) <= d:
+        xDir, yDir = random.choice(directions), random.choice(directions)
+
+        newX = toMove.x + xDir
+        newY = toMove.y + yDir
+
+    return xDir, yDir
+
+
+def cluster_spread_too_far(cluster):
+    if cluster.numDots == 2:
+        if distance_between(cluster.dotList[0], cluster.dotList[1]) > 2*cluster.r:
+            return True
     return False

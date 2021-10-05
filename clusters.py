@@ -95,33 +95,36 @@ class Cluster:
             del self.dotList[i]
         self.numDots = len(self.dotList)
 
-        newCluster.move_cluster()
+        newCluster.move_cluster(awayFrom=self.centerDot)
         newCluster.recenter_cluster()
 
         self.recenter_cluster()
 
         return newCluster
 
-    def move_cluster(self, steps=20):
-        xSign = 1
-        ySign = 1
-        if random.random() < 0.5:
-            xSign *= -1
-        if random.random() < 0.5:
-            ySign *= -1
-
-        while relationships.moving_closer_to_center(self.dotList[0], self, xSign, ySign):
-            if random.random() < 0.5:
-                xSign *= -1
-            if random.random() < 0.5:
-                ySign *= -1
+    def move_cluster(self, steps=20, awayFrom=None, toMove=None, stepSize=None):
+        if not awayFrom:
+            xSign, ySign = relationships.pick_random_dir()
+        elif toMove:
+            xSign, ySign = relationships.pick_dir_away_from(toMove, awayFrom)
+        else:
+            xSign, ySign = relationships.pick_dir_away_from(self.centerDot, awayFrom)
 
         for i in range(steps):
-            xDir = xSign * random.uniform(0,2)
-            yDir = ySign * random.uniform(0,2)
+            if not stepSize:
+                xDir = xSign * random.uniform(0,2)
+                yDir = ySign * random.uniform(0,2)
+            else:
+                xDir = xSign * stepSize
+                yDir = ySign * stepSize
 
             self.x += xDir
             self.y += yDir
+            self.canvas.move(self.centerDot, xDir, yDir) # does this need to be done? moving the dot object that you can't see
+            # TODO: need to check to see when things are moving that the appropriate
+            #  coordinates are being updated. using dot method "update_coords"
+            #  and dot object isn't the only thing moving
+            self.centerDot.update_coords(self.x, self.y)
 
             for d in self.dotList:
                 d.x += xDir
@@ -132,13 +135,13 @@ class Cluster:
                     d.y -= yDir
                     self.canvas.move(d.ovalObject, -xDir, -yDir)  # move object x,y
 
-                time.sleep(0.2)
                 self.canvas.update()
                 if i % 4 == 0:
                     d.jitter_dot()
 
-    def close_cluster(self):
-        self.r -= 1
+    def close_cluster(self, fixingSpread=False):
+        if not fixingSpread:
+            self.r -= 1
 
         for d in self.dotList:
             ydelt = (self.y - d.y)/abs(self.y - d.y)

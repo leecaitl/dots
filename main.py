@@ -50,18 +50,22 @@ if __name__ == '__main__':
         jitter_all_dots(canvas, allDots)
 
         # always checking to see if the user is in any given cluster
-        found = False
+        # found = False
+        # for c in clusterList:
+        #     if relationships.is_on_cluster_boundary(canvas, user, c):
+        #         user.set_cluster(c)
+        #         found = True
+        #         break
+        # if not found:
+        #     user.set_cluster(None)
         for c in clusterList:
-            if relationships.is_on_cluster_boundary(canvas, user, c):
-                user.set_cluster(c)
-                found = True
-                break
-        if not found:
-            user.set_cluster(None)
+            if relationships.is_within_cluster(user, c):
+                print('running away from')
+                c.move_cluster(awayFrom=user,  steps=40, stepSize=2)
 
         # for every cluster, consider breaking it up and also closing it
         for c in clusterList:
-            if random.random() > 0.999:
+            if random.random() > 0.9999:
                 print('trying to split cluster')
                 newCluster = c.break_cluster()
                 if newCluster:
@@ -69,10 +73,14 @@ if __name__ == '__main__':
                     clusterList.append(newCluster)
                 c.close_cluster()
 
-            if c.r > c.dotList[0].r * 2 and random.random() > 0.999:
+            if c.r > c.dotList[0].r * 2 and random.random() > 0.9999:
                 print('closing cluster')
                 c.close_cluster()
 
-            if random.random() > 0.999:
+            if random.random() > 0.9999:
                 print('moving cluster')
                 c.move_cluster()
+
+            if relationships.cluster_spread_too_far(c):
+                print('found cluster spread too far')
+                c.close_cluster(fixingSpread=True)

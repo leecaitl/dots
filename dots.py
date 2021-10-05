@@ -46,3 +46,7 @@ class Dot:
             self.x -= deltx
             self.y -= delty
             self.canvas.move(self.ovalObject, -deltx, -delty)  # move object x, y
+
+    def update_coords(self, x, y):
+        self.x = x
+        self.y = y
