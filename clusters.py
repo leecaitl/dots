@@ -95,7 +95,7 @@ class Cluster:
             del self.dotList[i]
         self.numDots = len(self.dotList)
 
-        newCluster.move_cluster(awayFrom=self.centerDot)
+        newCluster.move_cluster(awayFrom=self.centerDot, toMove=newCluster.dotList[0])
         newCluster.recenter_cluster()
 
         self.recenter_cluster()

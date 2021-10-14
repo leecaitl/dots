@@ -128,6 +128,10 @@ def pick_dir_away_from(toMove, refPoint):
 
 def cluster_spread_too_far(cluster):
     if cluster.numDots == 2:
-        if distance_between(cluster.dotList[0], cluster.dotList[1]) > 2*cluster.r:
+        if distance_between(cluster.dotList[0], cluster.dotList[1]) > 2*cluster.r + dots.RADIUS:
             return True
     return False
+
+
+def intersecting_clusters(c1, c2):
+    return
